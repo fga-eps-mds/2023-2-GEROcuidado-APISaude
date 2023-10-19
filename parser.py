@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 import pytz
 
-desired_timezone = pytz.timezone('GMT-3')
+desired_timezone = pytz.timezone('America/Sao_Paulo')
 
 TODAY = datetime.now(desired_timezone)
 
