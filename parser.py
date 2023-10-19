@@ -3,7 +3,9 @@ import requests
 import sys
 from datetime import datetime
 
-TODAY = datetime.now()
+desired_timezone = pytz.timezone('GMT-3')
+
+TODAY = datetime.now(desired_timezone)
 
 METRICS_SONAR = [
     "files",
@@ -31,7 +33,7 @@ if __name__ == "__main__":
         f'{BASE_URL}{REPO}&metricKeys={",".join(METRICS_SONAR)}&ps=500'
     )
     j = json.loads(response.text)
-
+    
     file_path = f'./analytics-raw-data/fga-eps-mds-{REPO}-{TODAY.strftime("%m-%d-%Y-%H-%M-%S")}-{RELEASE_VERSION}.json'
 
     with open(file_path, "w") as fp:
