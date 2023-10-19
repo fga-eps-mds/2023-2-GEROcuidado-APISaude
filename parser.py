@@ -2,6 +2,7 @@ import json
 import requests
 import sys
 from datetime import datetime
+import pytz
 
 desired_timezone = pytz.timezone('GMT-3')
 
