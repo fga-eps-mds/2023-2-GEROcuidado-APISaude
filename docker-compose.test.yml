@@ -1,11 +1,11 @@
 version: '3.7'
 services:
   gerocuidado-saude-api-test:
-    image: node:18.13.0
+    image: gerocuidadodev/node:18.17.0-alpine-dev
     container_name: gerocuidado-saude-api-test
     volumes:
       - '.:/home/node/app'
-    entrypoint: bash /home/node/app/.docker/entrypoint.test.sh
+    entrypoint: dockerize -wait tcp://gerocuidado-saude-db-test:5003 -timeout 40s ./.docker/entrypoint.test.sh
     environment:
       - NODE_ENV=test
       - TEST=$TEST
@@ -22,6 +22,7 @@ services:
       context: ./.docker/postgres
       dockerfile: Dockerfile
     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+    container_name: gerocuidado-saude-db-test
     volumes:
       - './.docker/postgres/config/postgresql.conf:/etc/postgresql/postgresql.conf'
     environment:
