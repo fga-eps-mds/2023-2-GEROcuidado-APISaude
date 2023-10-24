@@ -1,10 +1,10 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { AllExceptionsFilter } from './../src/shared/filters/all-exceptions.filter';
-import { ModelNotFoundExceptionFilter } from './../src/shared/filters/model-not-found.exception-filter';
-import { DataTransformInterceptor } from './../src/shared/interceptors/data-transform.interceptor';
+import { AppModule } from '../src/app.module';
+import { AllExceptionsFilter } from '../src/shared/filters/all-exceptions.filter';
+import { ModelNotFoundExceptionFilter } from '../src/shared/filters/model-not-found.exception-filter';
+import { DataTransformInterceptor } from '../src/shared/interceptors/data-transform.interceptor';
 
 describe('App (e2e)', () => {
   let app: INestApplication;
@@ -31,18 +31,14 @@ describe('App (e2e)', () => {
     await app.init();
   });
 
-  describe('GET: /api/saude/health-check', () => {
-    it('/api/saude/health-check (GET) Health Check', async () => {
+  describe('GET: /api/saude/not-found', () => {
+    it('/api/saude/not-found (GET)', async () => {
       const response = await request(app.getHttpServer())
-        .get('/health-check')
+        .get('/not-found')
         .set('Content-Type', 'application/json')
-        .send()
-        .expect(200);
+        .send();
 
-      expect(response.body).toEqual({
-        message: 'GEROcuidadoAPISaude health check Ok!',
-        data: {},
-      });
+      expect(response.statusCode).toBe(404);
     });
   });
 
