@@ -15,6 +15,7 @@ services:
       - gerocuidado-saude-db
     networks:
       - gerocuidado-saude-net
+      - gerocuidado-apis-net
 
   gerocuidado-saude-db:
     build:
@@ -36,3 +37,6 @@ services:
 networks:
   gerocuidado-saude-net:
     driver: bridge
+  gerocuidado-apis-net:
+    name: gerocuidado-apis-net
+    external: true
