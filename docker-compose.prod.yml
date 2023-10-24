@@ -9,12 +9,15 @@ services:
       - DB_PASS=postgres
       - DB_DATABASE=gerocuidado-saude-db
       - DB_PORT=5003
+      - AUTH_HOST=gerocuidado-usuario-api-prod
+      - AUTH_PORT=4001
     ports:
       - '3003:3003'
     depends_on:
       - gerocuidado-saude-db
     networks:
       - gerocuidado-saude-net
+      - gerocuidado-apis-net
 
   gerocuidado-saude-db:
     build:
@@ -36,3 +39,6 @@ services:
 networks:
   gerocuidado-saude-net:
     driver: bridge
+  gerocuidado-apis-net:
+    name: gerocuidado-apis-net
+    external: true
