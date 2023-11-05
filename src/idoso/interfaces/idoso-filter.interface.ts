@@ -1,4 +1,4 @@
 export interface IIdosoFilter {
-    id?: number;
-    nome?: string;
+  id?: number;
+  nome?: string;
 }

@@ -29,7 +29,7 @@ describe('AutenticacaoGuard', () => {
       providers: [
         AutenticacaoGuard,
         {
-          provide: 'AUTH_CLIENT',
+          provide: 'USUARIO_CLIENT',
           useValue: mockClientProxy,
         },
         Reflector,

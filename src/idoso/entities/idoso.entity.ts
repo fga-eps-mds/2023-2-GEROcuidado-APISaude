@@ -1,32 +1,32 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { ETipoSanguineoIdoso } from '../classes/tipoSanguineo-idoso.enum';
+import { ETipoSanguineo } from '../classes/tipo-sanguineo.enum';
 import { CreateIdosoDto } from '../dto/create-idoso-dto';
 import { UpdateIdosoDto } from '../dto/update-idoso.dto';
 
-@Entity({ name: 'idoso'})
+@Entity({ name: 'idoso' })
 export class Idoso {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column('integer')
-    idUsuario!: number;
+  @Column('integer')
+  idUsuario!: number;
 
-    @Column('varchar', { length: 60 })
-    nome!: string;
+  @Column('varchar', { length: 60 })
+  nome!: string;
 
-    @Column('date')
-    dataNascimento!: Date;
+  @Column('timestamp')
+  dataNascimento!: Date;
 
-    @Column('enum', {enum: ETipoSanguineoIdoso})
-    tipoSanguineo?: ETipoSanguineoIdoso;
+  @Column('enum', { enum: ETipoSanguineo })
+  tipoSanguineo?: ETipoSanguineo;
 
-    @Column('varchar', { length: 11 })
-    telefoneResponsavel!: string;
+  @Column('varchar', { length: 11 })
+  telefoneResponsavel!: string;
 
-    @Column('varchar', { length: 500 })
-    descricao?: string;
+  @Column('varchar', { length: 500 })
+  descricao?: string;
 
-    constructor(createIdosoDto: CreateIdosoDto | UpdateIdosoDto) {
-        Object.assign(this, createIdosoDto);
-      }
+  constructor(createIdosoDto: CreateIdosoDto | UpdateIdosoDto) {
+    Object.assign(this, createIdosoDto);
+  }
 }

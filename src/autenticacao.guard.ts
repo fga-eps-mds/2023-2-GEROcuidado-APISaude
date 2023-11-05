@@ -13,7 +13,7 @@ import { IS_PUBLIC_KEY } from './shared/decorators/public-route.decorator';
 @Injectable()
 export class AutenticacaoGuard implements CanActivate {
   constructor(
-    @Inject('AUTH_CLIENT')
+    @Inject('USUARIO_CLIENT')
     private readonly _client: ClientProxy,
     private readonly _reflector: Reflector,
   ) {}
