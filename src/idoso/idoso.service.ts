@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ordering } from '../shared/decorators/ordenate.decorator';
 import { Pagination } from '../shared/decorators/paginate.decorator';
+import { getImageUri } from '../shared/helpers/buffer-to-image';
 import {
   getWhereClauseNumber,
   getWhereClauseString,
@@ -19,6 +21,7 @@ export class IdosoService {
   constructor(
     @InjectRepository(Idoso)
     private readonly _repository: Repository<Idoso>,
+    private readonly _configService: ConfigService,
   ) {}
 
   async create(body: CreateIdosoDto): Promise<Idoso> {
@@ -26,14 +29,25 @@ export class IdosoService {
     return this._repository.save(idoso);
   }
 
-  async findOne(id: number): Promise<Idoso> {
-    return this._repository.findOneOrFail({ where: { id } });
+  async findOne(id: number, transformImage = false) {
+    const idoso = await this._repository.findOneOrFail({ where: { id } });
+    if (transformImage && idoso.foto) {
+      idoso.foto = getImageUri(idoso.foto) as unknown as Buffer;
+    }
+    return idoso;
   }
 
   async update(id: number, body: UpdateIdosoDto): Promise<Idoso> {
-    const found = await this._repository.findOneOrFail({ where: { id } });
+    const found = await this.findOne(id);
     const merged = Object.assign(found, body);
-    return this._repository.save(merged);
+
+    const updated = await this._repository.save(merged);
+
+    if (updated.foto) {
+      updated.foto = getImageUri(updated.foto) as unknown as Buffer & string;
+    }
+
+    return updated;
   }
 
   async findAll(

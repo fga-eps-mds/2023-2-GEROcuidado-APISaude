@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-  MinLength,
+  MinLength
 } from 'class-validator';
 import { ETipoSanguineo } from '../classes/tipo-sanguineo.enum';
 
@@ -14,6 +14,10 @@ export class CreateIdosoDto {
   @IsNumber()
   @IsNotEmpty()
   idUsuario!: number;
+
+  @IsOptional()
+  @IsString()
+  foto?: string;
 
   @IsString()
   @IsNotEmpty()

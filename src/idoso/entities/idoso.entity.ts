@@ -11,6 +11,9 @@ export class Idoso {
   @Column('integer')
   idUsuario!: number;
 
+  @Column('bytea', { nullable: true })
+  foto!: Buffer;
+
   @Column('varchar', { length: 60 })
   nome!: string;
 
