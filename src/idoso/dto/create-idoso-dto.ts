@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-  MinLength
+  MinLength,
 } from 'class-validator';
 import { ETipoSanguineo } from '../classes/tipo-sanguineo.enum';
 

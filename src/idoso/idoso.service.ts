@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ordering } from '../shared/decorators/ordenate.decorator';
@@ -21,7 +20,6 @@ export class IdosoService {
   constructor(
     @InjectRepository(Idoso)
     private readonly _repository: Repository<Idoso>,
-    private readonly _configService: ConfigService,
   ) {}
 
   async create(body: CreateIdosoDto): Promise<Idoso> {
