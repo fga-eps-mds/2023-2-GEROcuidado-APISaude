@@ -9,8 +9,8 @@ services:
       - DB_PASS=postgres
       - DB_DATABASE=gerocuidado-saude-db
       - DB_PORT=5003
-      - AUTH_HOST=gerocuidado-usuario-api-prod
-      - AUTH_PORT=4001
+      - USUARIO_HOST=gerocuidado-usuario-api-prod
+      - USUARIO_PORT=4001
     ports:
       - '3003:3003'
     depends_on:

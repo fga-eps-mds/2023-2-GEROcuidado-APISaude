@@ -1,0 +1,35 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ETipoSanguineo } from '../classes/tipo-sanguineo.enum';
+import { CreateIdosoDto } from '../dto/create-idoso-dto';
+import { UpdateIdosoDto } from '../dto/update-idoso.dto';
+
+@Entity({ name: 'idoso' })
+export class Idoso {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column('integer')
+  idUsuario!: number;
+
+  @Column('bytea', { nullable: true })
+  foto!: Buffer;
+
+  @Column('varchar', { length: 60 })
+  nome!: string;
+
+  @Column('timestamp')
+  dataNascimento!: Date;
+
+  @Column('enum', { enum: ETipoSanguineo })
+  tipoSanguineo?: ETipoSanguineo;
+
+  @Column('varchar', { length: 11 })
+  telefoneResponsavel!: string;
+
+  @Column('varchar', { length: 500 })
+  descricao?: string;
+
+  constructor(createIdosoDto: CreateIdosoDto | UpdateIdosoDto) {
+    Object.assign(this, createIdosoDto);
+  }
+}
