@@ -20,7 +20,7 @@ export class IdosoService {
   constructor(
     @InjectRepository(Idoso)
     private readonly _repository: Repository<Idoso>,
-  ) {}
+  ) { }
 
   async create(body: CreateIdosoDto): Promise<Idoso> {
     const idoso = new Idoso(body);
@@ -67,8 +67,15 @@ export class IdosoService {
       .orderBy(`"${sort}"`, order)
       .getManyAndCount();
 
+    const data = result.map((item) => {
+      if (item.foto) {
+        item.foto = getImageUri(item.foto) as unknown as Buffer & string;
+      }
+      return item
+    })
+
     return {
-      data: result,
+      data,
       count: +total,
       pageSize: +total,
     };

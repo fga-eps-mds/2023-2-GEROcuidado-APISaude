@@ -41,6 +41,6 @@ export class CreateIdosoDto {
 
   @IsString()
   @MaxLength(500)
-  @IsNotEmpty()
+  @IsOptional()
   descricao?: string;
 }
