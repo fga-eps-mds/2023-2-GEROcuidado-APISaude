@@ -23,7 +23,7 @@ import { IIdosoFilter } from './interfaces/idoso-filter.interface';
 
 @Controller('idoso')
 export class IdosoController {
-  constructor(private readonly _service: IdosoService) { }
+  constructor(private readonly _service: IdosoService) {}
 
   @Get()
   @PublicRoute()
