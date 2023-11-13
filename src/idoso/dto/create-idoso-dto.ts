@@ -43,4 +43,8 @@ export class CreateIdosoDto {
   @MaxLength(500)
   @IsOptional()
   descricao?: string;
+
+  @IsDateString()
+  @IsOptional()
+  dataHora!: Date;
 }

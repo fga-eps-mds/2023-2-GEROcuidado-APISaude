@@ -26,8 +26,11 @@ export class Idoso {
   @Column('varchar', { length: 11 })
   telefoneResponsavel!: string;
 
-  @Column('varchar', { length: 500 , nullable: true})
+  @Column('varchar', { length: 500, nullable: true })
   descricao!: string;
+
+  @Column('timestamp')
+  dataHora!: Date;
 
   constructor(createIdosoDto: CreateIdosoDto | UpdateIdosoDto) {
     Object.assign(this, createIdosoDto);
