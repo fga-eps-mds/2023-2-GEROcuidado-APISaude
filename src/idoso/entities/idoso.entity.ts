@@ -29,7 +29,7 @@ export class Idoso {
   @Column('varchar', { length: 500, nullable: true })
   descricao!: string;
 
-  @Column('timestamp')
+  @Column('timestamp', { nullable: true })
   dataHora!: Date;
 
   constructor(createIdosoDto: CreateIdosoDto | UpdateIdosoDto) {
