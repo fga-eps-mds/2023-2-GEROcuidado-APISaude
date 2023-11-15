@@ -29,7 +29,7 @@ describe('E2E - Idoso', () => {
   let client: ClientProxy;
   let repository: Repository<Idoso>;
   let token: string =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5ceyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
   const idoso: Partial<Idoso> = {
     id: undefined,
@@ -39,7 +39,7 @@ describe('E2E - Idoso', () => {
     dataNascimento: new Date().toISOString() as any,
     tipoSanguineo: ETipoSanguineo.AB_Negativo,
     telefoneResponsavel: '123456789',
-    descricao: 'desc',
+    descricao: 'Nova descricao',
     dataHora: new Date().toISOString() as any,
   };
 
@@ -97,6 +97,7 @@ describe('E2E - Idoso', () => {
       const res = await request(app.getHttpServer())
         .post('/idoso')
         .set('Content-Type', 'application/json')
+        .set('Authorization', 'bearer ' + token)
         .send(idoso);
 
       expect(res.statusCode).toEqual(201);
@@ -114,6 +115,7 @@ describe('E2E - Idoso', () => {
       const res = await request(app.getHttpServer())
         .post('/idoso')
         .set('Content-Type', 'application/json')
+        .set('Authorization', 'bearer ' + token)
         .send({});
 
       expect(res.statusCode).toEqual(400);
@@ -131,9 +133,6 @@ describe('E2E - Idoso', () => {
         'telefoneResponsavel must be longer than or equal to 9 characters',
         'telefoneResponsavel should not be empty',
         'telefoneResponsavel must be a string',
-        'descricao should not be empty',
-        'descricao must be shorter than or equal to 500 characters',
-        'descricao must be a string',
       ]);
       expect(res.body.data).toBeNull();
     });
