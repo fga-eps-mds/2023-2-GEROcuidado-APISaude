@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Filtering } from '../shared/decorators/filtrate.decorator';
-import { OrderParams, Ordering } from '../shared/decorators/ordenate.decorator';
+import { Ordering, OrderParams } from '../shared/decorators/ordenate.decorator';
 import {
   Pagination,
   PaginationParams,
@@ -24,6 +24,7 @@ describe('IdosoController', () => {
     tipoSanguineo: ETipoSanguineo.AB_Negativo,
     telefoneResponsavel: '123456789',
     descricao: 'desc',
+    dataHora: new Date().toISOString() as any,
   };
 
   const idoso = {
@@ -63,7 +64,9 @@ describe('IdosoController', () => {
   });
 
   it('should create Idoso', async () => {
-    jest.spyOn(service, 'create').mockReturnValue(Promise.resolve(idoso));
+    jest
+      .spyOn(service, 'create')
+      .mockReturnValue(Promise.resolve(idoso as Idoso));
 
     const response = await controller.create(idosoDto);
     expect(response.data).toEqual(idoso);
@@ -71,14 +74,18 @@ describe('IdosoController', () => {
   });
 
   it('should find Idoso', async () => {
-    jest.spyOn(service, 'findOne').mockReturnValue(Promise.resolve(idoso));
+    jest
+      .spyOn(service, 'findOne')
+      .mockReturnValue(Promise.resolve(idoso as Idoso));
 
     const response = await controller.findOne({ id: 1 });
     expect(response).toEqual(idoso);
   });
 
   it('should remove Idoso', async () => {
-    jest.spyOn(service, 'remove').mockReturnValue(Promise.resolve(idoso));
+    jest
+      .spyOn(service, 'remove')
+      .mockReturnValue(Promise.resolve(idoso as Idoso));
 
     const response = await controller.remove({ id: 1 });
     expect(response.data).toEqual(idoso);
@@ -86,7 +93,9 @@ describe('IdosoController', () => {
   });
 
   it('should update Idoso', async () => {
-    jest.spyOn(service, 'update').mockReturnValue(Promise.resolve(idoso));
+    jest
+      .spyOn(service, 'update')
+      .mockReturnValue(Promise.resolve(idoso as Idoso));
 
     const response = await controller.update({ id: 1 }, { nome: 'Henrique' });
     expect(response.data).toEqual(idoso);
