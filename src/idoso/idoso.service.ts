@@ -68,6 +68,7 @@ export class IdosoService {
 
     whereClause += getWhereClauseString(filter.nome, 'nome');
     whereClause += getWhereClauseNumber(filter.id, 'id');
+    whereClause += getWhereClauseNumber(filter.idUsuario, '"idUsuario"');
 
     return whereClause;
   }
