@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ordering } from '../shared/decorators/ordenate.decorator';
 import { Pagination } from '../shared/decorators/paginate.decorator';
-import { getImageUri } from '../shared/helpers/buffer-to-image';
 import {
   getWhereClauseNumber,
   getWhereClauseString,
@@ -27,25 +26,15 @@ export class IdosoService {
     return this._repository.save(idoso);
   }
 
-  async findOne(id: number, transformImage = false) {
-    const idoso = await this._repository.findOneOrFail({ where: { id } });
-    if (transformImage && idoso.foto) {
-      idoso.foto = getImageUri(idoso.foto) as unknown as Buffer;
-    }
-    return idoso;
+  async findOne(id: number) {
+    return this._repository.findOneOrFail({ where: { id } });
   }
 
   async update(id: number, body: UpdateIdosoDto): Promise<Idoso> {
     const found = await this.findOne(id);
     const merged = Object.assign(found, body);
 
-    const updated = await this._repository.save(merged);
-
-    if (updated.foto) {
-      updated.foto = getImageUri(updated.foto) as unknown as Buffer & string;
-    }
-
-    return updated;
+    return this._repository.save(merged);
   }
 
   async findAll(
@@ -79,6 +68,7 @@ export class IdosoService {
 
     whereClause += getWhereClauseString(filter.nome, 'nome');
     whereClause += getWhereClauseNumber(filter.id, 'id');
+    whereClause += getWhereClauseNumber(filter.idUsuario, '"idUsuario"');
 
     return whereClause;
   }

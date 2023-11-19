@@ -11,6 +11,7 @@ import { HttpResponse } from '../shared/classes/http-response';
 import { Filtering, Filtrate } from '../shared/decorators/filtrate.decorator';
 import { Ordenate, Ordering } from '../shared/decorators/ordenate.decorator';
 import { Paginate, Pagination } from '../shared/decorators/paginate.decorator';
+import { PublicRoute } from '../shared/decorators/public-route.decorator';
 import { Response } from '../shared/interceptors/data-transform.interceptor';
 import { ResponsePaginate } from '../shared/interfaces/response-paginate.interface';
 import { IdValidator } from '../shared/validators/id.validator';
@@ -25,6 +26,7 @@ export class IdosoController {
   constructor(private readonly _service: IdosoService) {}
 
   @Get()
+  @PublicRoute()
   async findAll(
     @Filtrate() queryParam: Filtering<IIdosoFilter>,
     @Paginate() pagination: Pagination,

@@ -20,14 +20,17 @@ export class Idoso {
   @Column('timestamp')
   dataNascimento!: Date;
 
-  @Column('enum', { enum: ETipoSanguineo })
-  tipoSanguineo?: ETipoSanguineo;
+  @Column('enum', { enum: ETipoSanguineo, nullable: true })
+  tipoSanguineo!: ETipoSanguineo;
 
   @Column('varchar', { length: 11 })
   telefoneResponsavel!: string;
 
-  @Column('varchar', { length: 500 })
-  descricao?: string;
+  @Column('varchar', { length: 500, nullable: true })
+  descricao!: string;
+
+  @Column('timestamp', { nullable: true })
+  dataHora!: Date;
 
   constructor(createIdosoDto: CreateIdosoDto | UpdateIdosoDto) {
     Object.assign(this, createIdosoDto);

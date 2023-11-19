@@ -60,16 +60,6 @@ describe('IdosoService', () => {
     expect(found.id).toEqual(1);
   });
 
-  it('should find Idoso with foto', async () => {
-    jest.spyOn(repository, 'findOneOrFail').mockReturnValue({
-      id: 1,
-      foto: Buffer.from('/9j/4AAQSkZJRgABAQAAAQABAAD', 'utf-8'),
-    } as any);
-
-    const found = await service.findOne(1, true);
-    expect(found.id).toEqual(1);
-  });
-
   it('should remove Idoso', async () => {
     jest.spyOn(repository, 'findOneOrFail').mockReturnValue({ id: 1 } as any);
     jest.spyOn(repository, 'remove').mockReturnValue({ id: 1 } as any);
@@ -98,7 +88,7 @@ describe('IdosoService', () => {
     expect(found).toEqual({
       id: 1,
       nome: 'Henrique',
-      foto: 'data:image/png;base64,1',
+      foto: '1',
     });
   });
 
