@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -30,4 +31,10 @@ export class CreateRotinaDto {
   @IsOptional()
   @MaxLength(100)
   descricao?: string;
+
+  //precisa fazer o do concluido
+
+  @IsArray()
+  @IsOptional()
+  dias?: number[]; 
 }

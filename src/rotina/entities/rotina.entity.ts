@@ -19,13 +19,17 @@ export class Rotina {
     @Column('enum', { enum: ECategoriaRotina })
     categoria!: ECategoriaRotina;
 
-    // como sera o tipo dos dias da semana ?
+    @Column('integer', { array: true, default: [] })
+    dias?: number[]; 
 
     @Column('timestamp')
     dataHora!: Date;
 
     @Column('varchar', { length: 100, nullable: true })
     descricao?: string;
+
+    @Column({type: 'boolean',default:false})
+    concluido?: boolean;
 
     constructor(createRotinaDto: CreateRotinaDto | UpdateRotinaDto) {
         Object.assign(this, createRotinaDto);
