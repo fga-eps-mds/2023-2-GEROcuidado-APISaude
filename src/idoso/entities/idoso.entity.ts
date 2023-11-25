@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Rotina } from '../../rotina/entities/rotina.entity';
 import { ETipoSanguineo } from '../classes/tipo-sanguineo.enum';
 import { CreateIdosoDto } from '../dto/create-idoso-dto';
 import { UpdateIdosoDto } from '../dto/update-idoso.dto';
@@ -31,6 +32,9 @@ export class Idoso {
 
   @Column('timestamp', { nullable: true })
   dataHora!: Date;
+
+  @OneToMany(() => Rotina, (rotina) => rotina.idIdoso)
+  rotinas!: Rotina[];
 
   constructor(createIdosoDto: CreateIdosoDto | UpdateIdosoDto) {
     Object.assign(this, createIdosoDto);

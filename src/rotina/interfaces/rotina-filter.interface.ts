@@ -1,4 +1,4 @@
 export interface IRotinaFilter {
-    id?: number;
-    idPaciente?: number;
+  id?: number;
+  idIdoso?: number;
 }

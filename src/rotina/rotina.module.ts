@@ -6,9 +6,9 @@ import { RotinaController } from './rotina.controller';
 import { RotinaService } from './rotina.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Rotina])],
-    controllers: [RotinaController],
-    providers: [RotinaService, Repository],
-    exports: [RotinaService],
+  imports: [TypeOrmModule.forFeature([Rotina])],
+  controllers: [RotinaController],
+  providers: [RotinaService, Repository],
+  exports: [RotinaService],
 })
-export class RotinaModule { }
+export class RotinaModule {}

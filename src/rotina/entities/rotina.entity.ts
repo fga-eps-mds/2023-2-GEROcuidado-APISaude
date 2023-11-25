@@ -1,37 +1,44 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Idoso } from '../../idoso/entities/idoso.entity';
 import { ECategoriaRotina } from '../classes/categoria-rotina.enum';
+import { EDiasSemana } from '../classes/dias-semana.enum';
 import { CreateRotinaDto } from '../dto/create-rotina.dto';
 import { UpdateRotinaDto } from '../dto/update-rotina.dto';
 
 @Entity({ name: 'rotina' })
 export class Rotina {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column('integer')
-    // @ManyToOne(() => Idoso)
-    // @JoinColumn({ name: 'idPaciente' })
-    idPaciente!: number;
+  @Column('varchar', { length: 100 })
+  titulo!: string;
 
-    @Column('varchar', { length: 100 })
-    titulo!: string;
+  @Column('enum', { enum: ECategoriaRotina })
+  categoria!: ECategoriaRotina;
 
-    @Column('enum', { enum: ECategoriaRotina })
-    categoria!: ECategoriaRotina;
+  @Column('enum', { enum: EDiasSemana, array: true, default: [] })
+  dias!: EDiasSemana[];
 
-    @Column('integer', { array: true, default: [] })
-    dias?: number[]; 
+  @Column('timestamp')
+  dataHora!: Date;
 
-    @Column('timestamp')
-    dataHora!: Date;
+  @Column('varchar', { length: 100, nullable: true })
+  descricao!: string;
 
-    @Column('varchar', { length: 100, nullable: true })
-    descricao?: string;
+  @Column({ type: 'boolean', default: false })
+  concluido!: boolean;
 
-    @Column({type: 'boolean',default:false})
-    concluido?: boolean;
+  @ManyToOne(() => Idoso)
+  @JoinColumn({ name: 'idIdoso' })
+  idIdoso!: number;
 
-    constructor(createRotinaDto: CreateRotinaDto | UpdateRotinaDto) {
-        Object.assign(this, createRotinaDto);
-    }
+  constructor(createRotinaDto: CreateRotinaDto | UpdateRotinaDto) {
+    Object.assign(this, createRotinaDto);
+  }
 }

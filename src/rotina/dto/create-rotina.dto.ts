@@ -1,18 +1,20 @@
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  MaxLength
+  MaxLength,
 } from 'class-validator';
 import { ECategoriaRotina } from '../classes/categoria-rotina.enum';
+import { EDiasSemana } from '../classes/dias-semana.enum';
 export class CreateRotinaDto {
-  @IsNumber()
   @IsNotEmpty()
-  idPaciente!: number;
+  @IsNumber()
+  idIdoso!: number;
 
   @IsString()
   @MaxLength(100)
@@ -32,9 +34,11 @@ export class CreateRotinaDto {
   @MaxLength(100)
   descricao?: string;
 
-  //precisa fazer o do concluido
+  @IsOptional()
+  @IsBoolean()
+  concluido?: boolean;
 
   @IsArray()
-  @IsOptional()
-  dias?: number[]; 
+  @IsEnum(EDiasSemana, { each: true })
+  dias?: EDiasSemana[];
 }
