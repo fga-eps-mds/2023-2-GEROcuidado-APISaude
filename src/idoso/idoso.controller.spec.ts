@@ -1,5 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { CreateRotinaDto } from '../rotina/dto/create-rotina.dto';
+import { Rotina } from '../rotina/entities/rotina.entity';
 import { Filtering } from '../shared/decorators/filtrate.decorator';
 import { Ordering, OrderParams } from '../shared/decorators/ordenate.decorator';
 import {
@@ -25,6 +27,7 @@ describe('IdosoController', () => {
     telefoneResponsavel: '123456789',
     descricao: 'desc',
     dataHora: new Date().toISOString() as any,
+    rotinas: new Rotina(new CreateRotinaDto()) as any,
   };
 
   const idoso = {
