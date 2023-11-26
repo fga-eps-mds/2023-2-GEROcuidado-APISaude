@@ -1,48 +1,43 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { CreateRotinaDto } from '../rotina/dto/create-rotina.dto';
-import { Rotina } from '../rotina/entities/rotina.entity';
 import { Filtering } from '../shared/decorators/filtrate.decorator';
 import { Ordering, OrderParams } from '../shared/decorators/ordenate.decorator';
 import {
   Pagination,
   PaginationParams,
 } from '../shared/decorators/paginate.decorator';
-import { ETipoSanguineo } from './classes/tipo-sanguineo.enum';
-import { Idoso } from './entities/idoso.entity';
-import { IdosoController } from './idoso.controller';
-import { IdosoService } from './idoso.service';
-import { IIdosoFilter } from './interfaces/idoso-filter.interface';
+import { ECategoriaRotina } from './classes/categoria-rotina.enum';
+import { Rotina } from './entities/rotina.entity';
+import { IRotinaFilter } from './interfaces/rotina-filter.interface';
+import { RotinaController } from './rotina.controller';
+import { RotinaService } from './rotina.service';
 
-describe('IdosoController', () => {
-  let controller: IdosoController;
-  let service: IdosoService;
+describe('RotinaController', () => {
+  let controller: RotinaController;
+  let service: RotinaService;
 
-  const idosoDto = {
-    nome: 'Henrique',
-    foto: '1',
-    idUsuario: 1,
-    dataNascimento: new Date(),
-    tipoSanguineo: ETipoSanguineo.AB_Negativo,
-    telefoneResponsavel: '123456789',
+  const rotinaDto = {
+    idIdoso: 1,
+    titulo: 'titulo',
+    categoria: ECategoriaRotina.ALIMENTACAO,
     descricao: 'desc',
     dataHora: new Date().toISOString() as any,
-    rotinas: new Rotina(new CreateRotinaDto()) as any,
+    dias: [0, 1],
+    concluido: false,
   };
 
-  const idoso = {
-    ...idosoDto,
+  const rotina = {
+    ...rotinaDto,
     id: 1,
-    foto: Buffer.from('1'),
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [],
-      controllers: [IdosoController],
+      controllers: [RotinaController],
       providers: [
         {
-          provide: IdosoService,
+          provide: RotinaService,
           useValue: {
             create: jest.fn(),
             findOne: jest.fn(),
@@ -52,14 +47,14 @@ describe('IdosoController', () => {
           },
         },
         {
-          provide: getRepositoryToken(Idoso),
+          provide: getRepositoryToken(Rotina),
           useValue: {},
         },
       ],
     }).compile();
 
-    controller = module.get<IdosoController>(IdosoController);
-    service = module.get<IdosoService>(IdosoService);
+    controller = module.get<RotinaController>(RotinaController);
+    service = module.get<RotinaService>(RotinaService);
   });
 
   it('should be defined', () => {
@@ -69,48 +64,48 @@ describe('IdosoController', () => {
   it('should create Idoso', async () => {
     jest
       .spyOn(service, 'create')
-      .mockReturnValue(Promise.resolve(idoso as Idoso));
+      .mockReturnValue(Promise.resolve(rotina as Rotina));
 
-    const response = await controller.create(idosoDto);
-    expect(response.data).toEqual(idoso);
+    const response = await controller.create(rotinaDto);
+    expect(response.data).toEqual(rotina);
     expect(response.message).toEqual('Salvo com sucesso!');
   });
 
   it('should find Idoso', async () => {
     jest
       .spyOn(service, 'findOne')
-      .mockReturnValue(Promise.resolve(idoso as Idoso));
+      .mockReturnValue(Promise.resolve(rotina as Rotina));
 
     const response = await controller.findOne({ id: 1 });
-    expect(response).toEqual(idoso);
+    expect(response).toEqual(rotina);
   });
 
   it('should remove Idoso', async () => {
     jest
       .spyOn(service, 'remove')
-      .mockReturnValue(Promise.resolve(idoso as Idoso));
+      .mockReturnValue(Promise.resolve(rotina as Rotina));
 
     const response = await controller.remove({ id: 1 });
-    expect(response.data).toEqual(idoso);
+    expect(response.data).toEqual(rotina);
     expect(response.message).toEqual('Excluído com sucesso!');
   });
 
   it('should update Idoso', async () => {
     jest
       .spyOn(service, 'update')
-      .mockReturnValue(Promise.resolve(idoso as Idoso));
+      .mockReturnValue(Promise.resolve(rotina as Rotina));
 
-    const response = await controller.update({ id: 1 }, { nome: 'Henrique' });
-    expect(response.data).toEqual(idoso);
+    const response = await controller.update({ id: 1 }, { titulo: 'Titulo 2' });
+    expect(response.data).toEqual(rotina);
     expect(response.message).toEqual('Atualizado com sucesso!');
   });
 
   describe('findAll', () => {
-    const filter: IIdosoFilter = {
-      nome: 'Henrique',
+    const filter: IRotinaFilter = {
+      idIdoso: 1,
       id: 1,
     };
-    const filtering = new Filtering<IIdosoFilter>(JSON.stringify(filter));
+    const filtering = new Filtering<Rotina>(JSON.stringify(filter));
 
     const order: OrderParams = {
       column: 'id',
@@ -124,8 +119,8 @@ describe('IdosoController', () => {
     };
     const pagination: Pagination = new Pagination(paginate);
 
-    it('should findAll Idoso', async () => {
-      const expected = { data: [idoso], count: 1, pageSize: 1 };
+    it('should findAll Rotina', async () => {
+      const expected = { data: [rotina], count: 1, pageSize: 1 };
 
       jest.spyOn(service, 'findAll').mockReturnValue(Promise.resolve(expected));
 
@@ -137,7 +132,7 @@ describe('IdosoController', () => {
 
       expect(count).toEqual(1);
       expect(pageSize).toEqual(1);
-      expect(data).toEqual([idoso]);
+      expect(data).toEqual([rotina]);
     });
   });
 });

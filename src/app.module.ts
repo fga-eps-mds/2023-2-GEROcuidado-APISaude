@@ -7,6 +7,7 @@ import { AutenticacaoGuard } from './autenticacao.guard';
 import { DbModule } from './config/db/db.module';
 import { DbService } from './config/db/db.service';
 import { IdosoModule } from './idoso/idoso.module';
+import { RotinaModule } from './rotina/rotina.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -36,6 +37,7 @@ const ENV = process.env.NODE_ENV;
     ]),
     DbModule,
     IdosoModule,
+    RotinaModule,
   ],
   controllers: [],
   providers: [
