@@ -67,8 +67,26 @@ export class RotinaService {
 
     whereClause += getWhereClauseNumber(filter.id, 'id');
     whereClause += getWhereClauseNumber(filter.idIdoso, '"idIdoso"');
+    whereClause += this.getWhereClauseDate(filter.dataHora);
 
     return whereClause;
+  }
+
+  private getWhereClauseDate(value: string | undefined): string {
+    if (!value || value.length < 1) return '';
+
+    const date = new Date(value);
+    const weekday = date.getDay();
+
+    const start = new Date(value);
+    start.setUTCHours(0, 0, 0);
+    const startString = start.toISOString();
+
+    const end = new Date(value);
+    end.setUTCHours(23, 59, 59);
+    const endString = end.toISOString();
+
+    return ` AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR ("dias" && '{${weekday}}'::rotina_dias_enum[]))`;
   }
 
   async remove(id: number) {

@@ -31,8 +31,8 @@ export class Rotina {
   @Column('varchar', { length: 100, nullable: true })
   descricao!: string;
 
-  @Column({ type: 'boolean', default: false })
-  concluido!: boolean;
+  @Column('varchar', { array: true, default: [] })
+  dataHoraConcluidos!: string[];
 
   @ManyToOne(() => Idoso)
   @JoinColumn({ name: 'idIdoso' })

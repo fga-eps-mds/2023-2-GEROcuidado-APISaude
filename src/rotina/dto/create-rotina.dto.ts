@@ -1,6 +1,5 @@
 import {
   IsArray,
-  IsBoolean,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -34,9 +33,10 @@ export class CreateRotinaDto {
   @MaxLength(100)
   descricao?: string;
 
+  @IsArray()
   @IsOptional()
-  @IsBoolean()
-  concluido?: boolean;
+  @IsString({ each: true })
+  dataHoraConcluidos?: string[];
 
   @IsArray()
   @IsEnum(EDiasSemana, { each: true })
