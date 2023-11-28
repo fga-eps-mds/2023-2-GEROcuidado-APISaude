@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Filtering } from '../shared/decorators/filtrate.decorator';
-import { Ordering, OrderParams } from '../shared/decorators/ordenate.decorator';
+import { OrderParams, Ordering } from '../shared/decorators/ordenate.decorator';
 import {
   Pagination,
   PaginationParams,
@@ -22,8 +22,8 @@ describe('RotinaController', () => {
     categoria: ECategoriaRotina.ALIMENTACAO,
     descricao: 'desc',
     dataHora: new Date().toISOString() as any,
+    dataHoraConcluidos: [],
     dias: [0, 1],
-    concluido: false,
   };
 
   const rotina = {
@@ -102,6 +102,7 @@ describe('RotinaController', () => {
 
   describe('findAll', () => {
     const filter: IRotinaFilter = {
+      dataHora: new Date().toISOString(),
       idIdoso: 1,
       id: 1,
     };
@@ -125,7 +126,7 @@ describe('RotinaController', () => {
       jest.spyOn(service, 'findAll').mockReturnValue(Promise.resolve(expected));
 
       const { data, count, pageSize } = await controller.findAll(
-        filtering,
+        filtering as any,
         pagination,
         ordering,
       );

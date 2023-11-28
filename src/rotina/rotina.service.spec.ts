@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Ordering, OrderParams } from '../shared/decorators/ordenate.decorator';
+import { OrderParams, Ordering } from '../shared/decorators/ordenate.decorator';
 import {
   Pagination,
   PaginationParams,
@@ -109,9 +109,17 @@ describe('RotinaService', () => {
         }),
       } as any);
 
-      const { data, count } = await service.findAll({}, ordering, pagination);
+      const { data, count } = await service.findAll(
+        { dataHora: new Date().toISOString() },
+        ordering,
+        pagination,
+      );
       expect(count).toEqual(1);
       expect((data as Rotina[])[0]).toEqual(rotina);
+
+      const res = await service.findAll({}, ordering, pagination);
+      expect(res.count).toEqual(1);
+      expect((res.data as Rotina[])[0]).toEqual(rotina);
     });
   });
 });
