@@ -8,6 +8,7 @@ import { DbModule } from './config/db/db.module';
 import { DbService } from './config/db/db.service';
 import { IdosoModule } from './idoso/idoso.module';
 import { RotinaModule } from './rotina/rotina.module';
+import { MetricaModule } from './metrica/metrica.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -38,6 +39,7 @@ const ENV = process.env.NODE_ENV;
     DbModule,
     IdosoModule,
     RotinaModule,
+    MetricaModule,
   ],
   controllers: [],
   providers: [
@@ -47,4 +49,4 @@ const ENV = process.env.NODE_ENV;
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
