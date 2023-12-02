@@ -5,20 +5,19 @@ import { Ordering } from '../shared/decorators/ordenate.decorator';
 import { Pagination } from '../shared/decorators/paginate.decorator';
 // import { getWhereClauseNumber } from '../shared/helpers/sql-query-helper';
 import { ResponsePaginate } from '../shared/interfaces/response-paginate.interface';
-import { CreateMetricaDto } from './dto/create-metrica-dto';
-import { Metrica } from './entities/metrica.entity';
-import { UpdateMetricaDto } from './dto/update-metrica-dto';
+import { CreateValorMetricaDto } from './dto/create-valorMetrica-dto';
+import { ValorMetrica } from './entities/valorMetrica.entity';
 
 @Injectable()
-export class MetricaService {
+export class ValorMetricaService {
     constructor(
-        @InjectRepository(Metrica)
-        private readonly _repository: Repository<Metrica>,
+        @InjectRepository(ValorMetrica)
+        private readonly _repository: Repository<ValorMetrica>,
     ) { }
 
-    async create(body: CreateMetricaDto): Promise<Metrica> {
-        const metrica = new Metrica(body);
-        return this._repository.save(metrica);
+    async create(body: CreateValorMetricaDto): Promise<ValorMetrica> {
+        const valorMetrica = new ValorMetrica(body);
+        return this._repository.save(valorMetrica);
     }
 
     async findOne(id: number) {
@@ -26,20 +25,11 @@ export class MetricaService {
         return metrica;
     }
 
-    async update(id: number, body: UpdateMetricaDto): Promise<Metrica> {
-        const found = await this.findOne(id);
-        const merged = Object.assign(found, body);
-
-        const updated = await this._repository.save(merged);
-
-        return updated;
-    }
-
     async findAll(
         // filter: IRotinaFilter,
         ordering: Ordering,
         paging: Pagination,
-    ): Promise<ResponsePaginate<Metrica[]>> {
+    ): Promise<ResponsePaginate<ValorMetrica[]>> {
         const limit = paging.limit;
         const offset = paging.offset;
         const sort = ordering.column;
@@ -47,7 +37,7 @@ export class MetricaService {
         // const where = this.buildWhereClause(filter);
 
         const [result, total] = await this._repository
-            .createQueryBuilder('metrica')
+            .createQueryBuilder('valorMetrica')
             // .where(`${where}`)
             .limit(limit)
             .offset(offset)

@@ -9,6 +9,7 @@ import { DbService } from './config/db/db.service';
 import { IdosoModule } from './idoso/idoso.module';
 import { RotinaModule } from './rotina/rotina.module';
 import { MetricaModule } from './metrica/metrica.module';
+import { ValorMetricaModule } from './valorMetrica/valorMetrica.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -40,6 +41,7 @@ const ENV = process.env.NODE_ENV;
     IdosoModule,
     RotinaModule,
     MetricaModule,
+    ValorMetricaModule
   ],
   controllers: [],
   providers: [
