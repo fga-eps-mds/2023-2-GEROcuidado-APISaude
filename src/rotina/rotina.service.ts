@@ -3,10 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ordering } from '../shared/decorators/ordenate.decorator';
 import { Pagination } from '../shared/decorators/paginate.decorator';
-import {
-  getWhereClauseBoolean,
-  getWhereClauseNumber,
-} from '../shared/helpers/sql-query-helper';
+import { getWhereClauseNumber } from '../shared/helpers/sql-query-helper';
 import { ResponsePaginate } from '../shared/interfaces/response-paginate.interface';
 import { CreateRotinaDto } from './dto/create-rotina.dto';
 import { UpdateRotinaDto } from './dto/update-rotina.dto';
@@ -70,7 +67,6 @@ export class RotinaService {
 
     whereClause += getWhereClauseNumber(filter.id, 'id');
     whereClause += getWhereClauseNumber(filter.idIdoso, '"idIdoso"');
-    whereClause += getWhereClauseBoolean(filter.notificacao, '"notificacao"');
     whereClause += this.getWhereClauseDate(filter.dataHora);
 
     return whereClause;
@@ -114,7 +110,7 @@ export class RotinaService {
     return this._repository
       .createQueryBuilder('rotinas')
       .where(
-        `(("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${time}'`,
+        `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${time}'`,
       )
       .getMany();
   }
