@@ -121,5 +121,16 @@ describe('RotinaService', () => {
       expect(res.count).toEqual(1);
       expect((res.data as Rotina[])[0]).toEqual(rotina);
     });
+
+    it('should findAllToCron Rotina', async () => {
+      jest.spyOn(repository, 'createQueryBuilder').mockReturnValue({
+        where: () => ({
+          getMany: jest.fn().mockResolvedValueOnce([rotina]),
+        }),
+      } as any);
+
+      const data = await service.findAllToCron();
+      expect((data as Rotina[])[0]).toEqual(rotina);
+    });
   });
 });
