@@ -31,6 +31,12 @@ export class Rotina {
   @Column('varchar', { length: 100, nullable: true })
   descricao!: string;
 
+  @Column('varchar', { length: 100, nullable: true })
+  token!: string;
+
+  @Column('boolean', { default: false })
+  notificacao!: boolean;
+
   @Column('varchar', { array: true, default: [] })
   dataHoraConcluidos!: string[];
 
