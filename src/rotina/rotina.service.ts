@@ -105,7 +105,7 @@ export class RotinaService {
       })
       .split(' ');
 
-    const dataStringArray = data.split('/');
+    const dataStringArray = data.replace(',', '').split('/');
     const dataString = `${dataStringArray[2]}-${dataStringArray[1]}-${dataStringArray[0]}`;
     console.log('data: ', data);
     console.log('hora: ', hora);
