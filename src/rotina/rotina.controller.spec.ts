@@ -24,6 +24,8 @@ describe('RotinaController', () => {
     dataHora: new Date().toISOString() as any,
     dataHoraConcluidos: [],
     dias: [0, 1],
+    token: '',
+    notificacao: false,
   };
 
   const rotina = {

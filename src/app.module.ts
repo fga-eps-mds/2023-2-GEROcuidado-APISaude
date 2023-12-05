@@ -2,10 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AutenticacaoGuard } from './autenticacao.guard';
 import { DbModule } from './config/db/db.module';
 import { DbService } from './config/db/db.service';
+import { CronModule } from './cron/cron.module';
 import { IdosoModule } from './idoso/idoso.module';
 import { RotinaModule } from './rotina/rotina.module';
 
@@ -13,6 +15,7 @@ const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: !ENV ? '.env' : `.env.${ENV}`,
@@ -38,6 +41,7 @@ const ENV = process.env.NODE_ENV;
     DbModule,
     IdosoModule,
     RotinaModule,
+    CronModule,
   ],
   controllers: [],
   providers: [

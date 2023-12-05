@@ -41,11 +41,11 @@ export class RotinaService {
     ordering: Ordering,
     paging: Pagination,
   ): Promise<ResponsePaginate<Rotina[]>> {
-    const limit = paging.limit;
-    const offset = paging.offset;
     const sort = ordering.column;
+    const offset = paging.offset;
     const order = ordering.dir.toUpperCase() as 'ASC' | 'DESC';
     const where = this.buildWhereClause(filter);
+    const limit = paging.limit;
 
     const [result, total] = await this._repository
       .createQueryBuilder('rotinas')
@@ -56,9 +56,9 @@ export class RotinaService {
       .getManyAndCount();
 
     return {
-      data: result,
       count: +total,
       pageSize: +total,
+      data: result,
     };
   }
 
@@ -92,5 +92,26 @@ export class RotinaService {
   async remove(id: number) {
     const found = await this._repository.findOneOrFail({ where: { id } });
     return this._repository.remove(found);
+  }
+
+  async findAllToCron(): Promise<Rotina[]> {
+    const date = new Date();
+    const weekday = date.getDay();
+    const time = `${date.getHours()}:${date.getMinutes()}`;
+
+    const start = new Date();
+    start.setUTCHours(0, 0, 0);
+    const startString = start.toISOString();
+
+    const end = new Date();
+    end.setUTCHours(23, 59, 59);
+    const endString = end.toISOString();
+
+    return this._repository
+      .createQueryBuilder('rotinas')
+      .where(
+        `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${time}'`,
+      )
+      .getMany();
   }
 }
