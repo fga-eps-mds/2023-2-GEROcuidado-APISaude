@@ -96,16 +96,21 @@ export class RotinaService {
 
   async findAllToCron(): Promise<Rotina[]> {
     const date = new Date();
+    console.log('date: ', date);
     const weekday = date.getDay();
+    console.log('weekday: ', weekday);
     const time = `${date.getHours()}:${date.getMinutes()}`;
+    console.log('time: ', time);
 
     const start = new Date();
     start.setUTCHours(0, 0, 0);
     const startString = start.toISOString();
+    console.log('startString: ', startString);
 
     const end = new Date();
     end.setUTCHours(23, 59, 59);
     const endString = end.toISOString();
+    console.log('endString: ', endString);
 
     return this._repository
       .createQueryBuilder('rotinas')
