@@ -95,27 +95,34 @@ export class RotinaService {
   }
 
   async findAllToCron(): Promise<Rotina[]> {
-    const date = new Date();
-    console.log('date: ', date);
-    const weekday = date.getDay();
-    console.log('weekday: ', weekday);
-    const time = `${date.getHours()}:${date.getMinutes()}`;
-    console.log('time: ', time);
+    const [data, hora] = new Date()
+      .toLocaleString('pt-BR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+      .split(' ');
 
-    const start = new Date();
-    start.setUTCHours(0, 0, 0);
-    const startString = start.toISOString();
+    const dataStringArray = data.split('/');
+    const dataString = `${dataStringArray[2]}-${dataStringArray[1]}-${dataStringArray[0]}`;
+    console.log('data: ', data);
+    console.log('hora: ', hora);
+
+    const weekday = new Date(dataString).getDay();
+    console.log('weekday: ', weekday);
+
+    const startString = `${dataString}T00:00:00.000Z`;
     console.log('startString: ', startString);
 
-    const end = new Date();
-    end.setUTCHours(23, 59, 59);
-    const endString = end.toISOString();
+    const endString = `${dataString}T23:59:59.000Z`;
     console.log('endString: ', endString);
 
     return this._repository
       .createQueryBuilder('rotinas')
       .where(
-        `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${time}'`,
+        `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${hora}'`,
       )
       .getMany();
   }
