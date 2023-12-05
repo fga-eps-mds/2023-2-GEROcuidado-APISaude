@@ -107,17 +107,9 @@ export class RotinaService {
 
     const dataStringArray = data.replace(',', '').split('/');
     const dataString = `${dataStringArray[2]}-${dataStringArray[1]}-${dataStringArray[0]}`;
-    console.log('data: ', data);
-    console.log('hora: ', hora);
-
     const weekday = new Date(dataString).getDay();
-    console.log('weekday: ', weekday);
-
     const startString = `${dataString}T00:00:00.000Z`;
-    console.log('startString: ', startString);
-
     const endString = `${dataString}T23:59:59.000Z`;
-    console.log('endString: ', endString);
 
     return this._repository
       .createQueryBuilder('rotinas')
