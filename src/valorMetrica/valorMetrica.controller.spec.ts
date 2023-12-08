@@ -14,7 +14,7 @@ describe("ValorMetricaController", () => {
 
     const valorMetricaDto = {
         idMetrica: 1,
-        valor: 10,
+        valor: "10",
         dataHora: new Date().toISOString() as any,
     }
 
