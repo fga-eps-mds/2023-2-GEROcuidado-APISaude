@@ -6,6 +6,10 @@ import { Metrica } from './entities/metrica.entity';
 import { CreateMetricaDto } from './dto/create-metrica-dto';
 import { UpdateMetricaDto } from './dto/update-metrica-dto';
 import { ECategoriaMetrica } from './classes/tipo-metrica.enum';
+import { OrderParams, Ordering } from '../shared/decorators/ordenate.decorator';
+import { Pagination, PaginationParams } from '../shared/decorators/paginate.decorator';
+import { IMetricaFilter } from './interfaces/metrica-filter.interface';
+import { Filtering } from '../shared/decorators/filtrate.decorator';
 
 
 describe('MetricaService', () => {
@@ -62,6 +66,7 @@ describe('MetricaService', () => {
       expect(result).toEqual(metrica);
       expect(repository.save).toHaveBeenCalledWith(metrica);
     });
+    
   });
   
 describe('findOne', () => {
@@ -76,6 +81,7 @@ describe('findOne', () => {
       expect(result).toEqual(metrica);
       expect(repository.findOneOrFail).toHaveBeenCalledWith({ where: { id } });
     });
+
   });
 
   describe('update', () => {
@@ -96,6 +102,70 @@ describe('findOne', () => {
       expect(service.findOne).toHaveBeenCalledWith(id);
       expect(repository.save).toHaveBeenCalledWith(expect.objectContaining(updateMetricaDto));
     });
+
   });
+
+  it('should remove Metrica', async () => {
+    jest.spyOn(repository, 'findOneOrFail').mockReturnValue({ id: 1 } as any);
+    jest.spyOn(repository, 'remove').mockReturnValue({ id: 1 } as any);
+
+    const removed = await service.remove(1);
+    expect(removed.id).toEqual(1);
+});
+
+describe('findAll', () => {
+  const Metrica = {
+      id: 1,
+      idMetrica: 1,
+  };
+
+  const order: OrderParams = {
+      column: 'id',
+      dir: 'ASC',
+  };
+
+  const ordering: Ordering = new Ordering(JSON.stringify(order));
+
+  const paginate: PaginationParams = {
+      limit: 10,
+      offset: 0,
+  };
+
+  const pagination: Pagination = new Pagination(paginate);
+
+  const filter: IMetricaFilter = {
+    idIdoso: 1,
+  };
+
+  const filtering = new Filtering<Metrica>(JSON.stringify(filter));
+
+  it('should findAll Metrica', async () => {
+      jest.spyOn(repository, 'createQueryBuilder').mockReturnValue({
+          where: () => ({
+              limit: () => ({
+                  offset: () => ({
+                      orderBy: () => ({
+                          getManyAndCount: jest.fn().mockResolvedValueOnce([[Metrica], 1]),
+                      }),
+                  }),
+              }),
+          }),
+      } as any);
+
+      const { data, count } = await service.findAll(
+          filtering as any,
+          ordering,
+          pagination,
+      );
+      expect(count).toEqual(1);
+      expect((data as Metrica[])[0]).toEqual(Metrica);
+
+      const res = await service.findAll({}, ordering, pagination);
+      expect(res.count).toEqual(1);
+      expect((res.data as Metrica[])[0]).toEqual(Metrica);
+  });
+
+});
+
 
 });
