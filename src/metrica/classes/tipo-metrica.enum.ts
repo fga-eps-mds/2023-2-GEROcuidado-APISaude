@@ -5,4 +5,7 @@ export enum ECategoriaMetrica {
     PESO = 'Peso',
     GLICEMIA = 'Glicemia',
     SATURACAO = 'Saturação',
+    HORAS_DORMIDAS = 'Horas Dormidas',
+    ALTURA = 'Altura',
+    IMC = 'IMC',
 }

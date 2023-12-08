@@ -12,8 +12,8 @@ export class ValorMetrica {
     @JoinColumn({ name: 'idMetrica' })
     idMetrica!: number;
 
-    @Column('float')
-    valor!: number;
+    @Column('varchar', {length: 10})
+    valor!: string;
 
     @Column('timestamp')
     dataHora!: Date;

@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateValorMetricaDto {
 
@@ -7,8 +7,8 @@ export class CreateValorMetricaDto {
     idMetrica!: number;
 
     @IsNotEmpty()
-    @IsNumber()
-    valor!: number;
+    @IsString()
+    valor!: string;
 
     @IsDateString()
     @IsNotEmpty()
