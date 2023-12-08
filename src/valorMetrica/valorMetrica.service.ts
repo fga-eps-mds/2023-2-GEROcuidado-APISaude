@@ -55,7 +55,7 @@ export class ValorMetricaService {
   private buildWhereClause(filter: IValorMetricaFilter): string {
     let whereClause = '1 = 1 ';
 
-    whereClause += getWhereClauseNumber(filter.idMetrica, 'idMetrica');
+    whereClause += getWhereClauseNumber(filter.idMetrica, '"idMetrica"');
 
     return whereClause;
   }
