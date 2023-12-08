@@ -63,6 +63,7 @@ describe('MetricaService', () => {
       expect(repository.save).toHaveBeenCalledWith(metrica);
     });
   });
+  
 describe('findOne', () => {
     it('should find a metrica by id', async () => {
       const id = 1;
@@ -74,6 +75,26 @@ describe('findOne', () => {
 
       expect(result).toEqual(metrica);
       expect(repository.findOneOrFail).toHaveBeenCalledWith({ where: { id } });
+    });
+  });
+
+  describe('update', () => {
+    it('should update a metrica by id', async () => {
+      const id = 1;
+      const updateMetricaDto: UpdateMetricaDto = {
+        idIdoso: 3,
+        categoria: ECategoriaMetrica.PRESSAO_SANGUINEA,
+      };
+      const metrica = new Metrica(metricatest);
+
+      jest.spyOn(service, 'findOne').mockResolvedValue(metrica);
+      jest.spyOn(repository, 'save').mockResolvedValue(metrica);
+
+      const result = await service.update(id, updateMetricaDto);
+
+      expect(result).toEqual(metrica);
+      expect(service.findOne).toHaveBeenCalledWith(id);
+      expect(repository.save).toHaveBeenCalledWith(expect.objectContaining(updateMetricaDto));
     });
   });
 
