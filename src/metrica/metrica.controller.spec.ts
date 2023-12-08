@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MetricaService } from './metrica.service';
-import { MetricaController } from './metrica.controller';
-import { ECategoriaMetrica } from './classes/tipo-metrica.enum';
-import { Metrica } from './entities/metrica.entity';
-import { IMetricaFilter } from './interfaces/metrica-filter.interface';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Filtering } from '../shared/decorators/filtrate.decorator';
+import { OrderParams, Ordering } from '../shared/decorators/ordenate.decorator';
 import {
   Pagination,
   PaginationParams,
 } from '../shared/decorators/paginate.decorator';
-import { OrderParams, Ordering } from '../shared/decorators/ordenate.decorator';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Filtering } from '../shared/decorators/filtrate.decorator';
+import { ECategoriaMetrica } from './classes/tipo-metrica.enum';
+import { Metrica } from './entities/metrica.entity';
+import { IMetricaFilter } from './interfaces/metrica-filter.interface';
+import { MetricaController } from './metrica.controller';
+import { MetricaService } from './metrica.service';
 
 describe('MetricaController', () => {
   let controller: MetricaController;
@@ -113,7 +113,7 @@ describe('MetricaController', () => {
     };
     const pagination: Pagination = new Pagination(paginate);
 
-    it('should findAll Rotina', async () => {
+    it('should findAll Metrica', async () => {
       const expected = { data: [metrica], count: 1, pageSize: 1 };
 
       jest.spyOn(service, 'findAll').mockReturnValue(Promise.resolve(expected));
