@@ -111,11 +111,13 @@ export class RotinaService {
     const startString = `${dataString}T00:00:00.000Z`;
     const endString = `${dataString}T23:59:59.000Z`;
 
+    const where = `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${hora}'`;
+
+    console.log(where);
+
     return this._repository
       .createQueryBuilder('rotinas')
-      .where(
-        `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${hora}'`,
-      )
+      .where(where)
       .getMany();
   }
 }
