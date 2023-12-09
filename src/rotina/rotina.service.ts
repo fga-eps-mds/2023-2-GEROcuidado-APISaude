@@ -107,13 +107,11 @@ export class RotinaService {
 
     const dataStringArray = data.replace(',', '').split('/');
     const dataString = `${dataStringArray[2]}-${dataStringArray[1]}-${dataStringArray[0]}`;
-    const weekday = new Date(dataString).getDay();
     const startString = `${dataString}T00:00:00.000Z`;
     const endString = `${dataString}T23:59:59.000Z`;
+    const weekday = new Date(`${dataString}T00:00:00.000`).getDay();
 
     const where = `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${hora}'`;
-
-    console.log(where);
 
     return this._repository
       .createQueryBuilder('rotinas')
