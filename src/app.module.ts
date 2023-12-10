@@ -9,7 +9,9 @@ import { DbModule } from './config/db/db.module';
 import { DbService } from './config/db/db.service';
 import { CronModule } from './cron/cron.module';
 import { IdosoModule } from './idoso/idoso.module';
+import { MetricaModule } from './metrica/metrica.module';
 import { RotinaModule } from './rotina/rotina.module';
+import { ValorMetricaModule } from './valorMetrica/valorMetrica.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -41,6 +43,8 @@ const ENV = process.env.NODE_ENV;
     DbModule,
     IdosoModule,
     RotinaModule,
+    MetricaModule,
+    ValorMetricaModule,
     CronModule,
   ],
   controllers: [],
