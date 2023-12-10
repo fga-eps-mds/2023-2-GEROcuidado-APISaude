@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -32,6 +33,15 @@ export class CreateRotinaDto {
   @IsOptional()
   @MaxLength(100)
   descricao?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(100)
+  token?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  notificacao?: boolean;
 
   @IsArray()
   @IsOptional()

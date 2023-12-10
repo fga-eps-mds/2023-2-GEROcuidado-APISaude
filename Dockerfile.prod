@@ -30,6 +30,15 @@ FROM node:18.17.0-alpine
 
 ENV NODE_ENV=production
 
+ARG TZ='America/Sao_Paulo'
+
+ENV TZ ${TZ}
+
+RUN apk upgrade --update
+RUN apk add --no-cache tzdata openssl
+RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime
+RUN echo "${TZ}" > /etc/timezone
+
 WORKDIR /app
 
 COPY --chown=node:node --from=BUILD_IMAGE /home/node/app/dist /app

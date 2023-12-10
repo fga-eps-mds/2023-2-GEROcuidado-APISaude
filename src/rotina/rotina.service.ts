@@ -41,11 +41,11 @@ export class RotinaService {
     ordering: Ordering,
     paging: Pagination,
   ): Promise<ResponsePaginate<Rotina[]>> {
-    const limit = paging.limit;
-    const offset = paging.offset;
     const sort = ordering.column;
+    const offset = paging.offset;
     const order = ordering.dir.toUpperCase() as 'ASC' | 'DESC';
     const where = this.buildWhereClause(filter);
+    const limit = paging.limit;
 
     const [result, total] = await this._repository
       .createQueryBuilder('rotinas')
@@ -56,9 +56,9 @@ export class RotinaService {
       .getManyAndCount();
 
     return {
-      data: result,
       count: +total,
       pageSize: +total,
+      data: result,
     };
   }
 
@@ -92,5 +92,30 @@ export class RotinaService {
   async remove(id: number) {
     const found = await this._repository.findOneOrFail({ where: { id } });
     return this._repository.remove(found);
+  }
+
+  async findAllToCron(): Promise<Rotina[]> {
+    const [data, hora] = new Date()
+      .toLocaleString('pt-BR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+      .split(' ');
+
+    const dataStringArray = data.replace(',', '').split('/');
+    const dataString = `${dataStringArray[2]}-${dataStringArray[1]}-${dataStringArray[0]}`;
+    const startString = `${dataString}T00:00:00.000Z`;
+    const endString = `${dataString}T23:59:59.000Z`;
+    const weekday = new Date(`${dataString}T00:00:00.000`).getDay();
+
+    const where = `"notificacao" = ${true} AND (("dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date) OR (dias && '{${weekday}}'::rotina_dias_enum[])) AND lpad(date_part('hour', "dataHora")::text, 2, '0') || ':' || lpad(date_part('minute', "dataHora")::text, 2, '0') = '${hora}'`;
+
+    return this._repository
+      .createQueryBuilder('rotinas')
+      .where(where)
+      .getMany();
   }
 }
