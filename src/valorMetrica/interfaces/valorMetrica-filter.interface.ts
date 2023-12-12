@@ -1,3 +1,3 @@
 export interface IValorMetricaFilter {
-    idMetrica?: number;
+  idMetrica?: number;
 }
