@@ -8,4 +8,5 @@ export enum ECategoriaMetrica {
     HORAS_DORMIDAS = 'Horas Dormidas',
     ALTURA = 'Altura',
     IMC = 'IMC',
+    HIDRATACAO = 'Hidratação',
 }

@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { ECategoriaMetrica } from "../classes/tipo-metrica.enum";
 
 export class CreateMetricaDto {
@@ -9,4 +9,8 @@ export class CreateMetricaDto {
     @IsNotEmpty()
     @IsEnum(ECategoriaMetrica)
     categoria?: ECategoriaMetrica;
+
+    @IsOptional()
+    @IsString()
+    valorMaximo?: string;
 }

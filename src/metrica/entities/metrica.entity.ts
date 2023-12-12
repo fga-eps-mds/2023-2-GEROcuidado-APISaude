@@ -16,6 +16,9 @@ export class Metrica {
     @Column('enum', { enum: ECategoriaMetrica })
     categoria!: ECategoriaMetrica;
 
+    @Column('varchar', { length: 20, nullable: true })
+    valorMaximo?: string;
+
     constructor(createMetricaDto: CreateMetricaDto | UpdateMetricaDto) {
         Object.assign(this, createMetricaDto);
     }
