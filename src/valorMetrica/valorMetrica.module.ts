@@ -6,9 +6,9 @@ import { ValorMetricaController } from './valorMetrica.controller';
 import { ValorMetricaService } from './valorMetrica.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ValorMetrica])],
-    controllers: [ValorMetricaController],
-    providers: [ValorMetricaService, Repository],
-    exports: [ValorMetricaService],
+  imports: [TypeOrmModule.forFeature([ValorMetrica])],
+  controllers: [ValorMetricaController],
+  providers: [ValorMetricaService, Repository],
+  exports: [ValorMetricaService],
 })
-export class ValorMetricaModule { }
+export class ValorMetricaModule {}

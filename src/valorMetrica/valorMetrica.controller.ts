@@ -14,7 +14,7 @@ import { ValorMetricaService } from './valorMetrica.service';
 
 @Controller('valorMetrica')
 export class ValorMetricaController {
-  constructor(private readonly _service: ValorMetricaService) { }
+  constructor(private readonly _service: ValorMetricaService) {}
 
   @Get()
   @PublicRoute()

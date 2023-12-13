@@ -6,9 +6,9 @@ import { MetricaController } from './metrica.controller';
 import { MetricaService } from './metrica.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Metrica])],
-    controllers: [MetricaController],
-    providers: [MetricaService, Repository],
-    exports: [MetricaService],
+  imports: [TypeOrmModule.forFeature([Metrica])],
+  controllers: [MetricaController],
+  providers: [MetricaService, Repository],
+  exports: [MetricaService],
 })
-export class MetricaModule { }
+export class MetricaModule {}

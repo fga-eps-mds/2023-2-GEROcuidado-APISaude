@@ -19,6 +19,7 @@ describe('MetricaController', () => {
   const metricaDto = {
     idIdoso: 1,
     categoria: ECategoriaMetrica.FREQUENCIA_CARDIACA,
+    valoresMetricas: [],
   };
 
   const metrica = {

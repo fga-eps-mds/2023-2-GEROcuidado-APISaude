@@ -6,8 +6,8 @@ import { Pagination } from '../shared/decorators/paginate.decorator';
 import { getWhereClauseNumber } from '../shared/helpers/sql-query-helper';
 import { ResponsePaginate } from '../shared/interfaces/response-paginate.interface';
 import { CreateMetricaDto } from './dto/create-metrica-dto';
-import { Metrica } from './entities/metrica.entity';
 import { UpdateMetricaDto } from './dto/update-metrica-dto';
+import { Metrica } from './entities/metrica.entity';
 import { IMetricaFilter } from './interfaces/metrica-filter.interface';
 
 @Injectable()
@@ -23,8 +23,31 @@ export class MetricaService {
   }
 
   async findOne(id: number) {
-    const metrica = await this._repository.findOneOrFail({ where: { id } });
-    return metrica;
+    return this._repository.findOneOrFail({ where: { id } });
+  }
+
+  async getSomaHidratacao(id: number) {
+    const start = new Date();
+    start.setUTCHours(0, 0, 0);
+    const startString = start.toISOString();
+
+    const end = new Date();
+    end.setUTCHours(23, 59, 59);
+    const endString = end.toISOString();
+
+    const result = (await this._repository
+      .createQueryBuilder('metrica')
+      .leftJoinAndSelect('metrica.valoresMetricas', 'valoresMetricas')
+      .select('valoresMetricas.valor AS valor')
+      .where('metrica.id = :id', { id })
+      .andWhere(
+        `"valoresMetricas"."dataHora"::date BETWEEN '${startString}'::date AND '${endString}'::date`,
+      )
+      .getRawMany()) as { valor: string }[];
+
+    return result.reduce((accumulator, valorMetrica) => {
+      return accumulator + Number(valorMetrica.valor);
+    }, 0);
   }
 
   async update(id: number, body: UpdateMetricaDto): Promise<Metrica> {

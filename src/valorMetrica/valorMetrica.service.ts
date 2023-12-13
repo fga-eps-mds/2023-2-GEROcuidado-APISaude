@@ -14,7 +14,7 @@ export class ValorMetricaService {
   constructor(
     @InjectRepository(ValorMetrica)
     private readonly _repository: Repository<ValorMetrica>,
-  ) { }
+  ) {}
 
   async create(body: CreateValorMetricaDto): Promise<ValorMetrica> {
     const valorMetrica = new ValorMetrica(body);

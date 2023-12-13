@@ -1,17 +1,15 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateValorMetricaDto {
+  @IsNotEmpty()
+  @IsNumber()
+  idMetrica!: number;
 
-    @IsNotEmpty()
-    @IsNumber()
-    idMetrica!: number;
+  @IsNotEmpty()
+  @IsString()
+  valor!: string;
 
-    @IsNotEmpty()
-    @IsString()
-    valor!: string;
-
-    @IsDateString()
-    @IsNotEmpty()
-    dataHora!: Date;
-
+  @IsDateString()
+  @IsNotEmpty()
+  dataHora!: Date;
 }

@@ -1,25 +1,25 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
   Post,
-  Delete,
 } from '@nestjs/common';
-import { MetricaService } from './metrica.service';
-import { Response } from '../shared/interceptors/data-transform.interceptor';
-import { Paginate, Pagination } from '../shared/decorators/paginate.decorator';
-import { Ordenate, Ordering } from '../shared/decorators/ordenate.decorator';
-import { ResponsePaginate } from '../shared/interfaces/response-paginate.interface';
-import { Metrica } from './entities/metrica.entity';
-import { IdValidator } from '../shared/validators/id.validator';
-import { UpdateMetricaDto } from './dto/update-metrica-dto';
 import { HttpResponse } from '../shared/classes/http-response';
-import { CreateMetricaDto } from './dto/create-metrica-dto';
-import { PublicRoute } from '../shared/decorators/public-route.decorator';
 import { Filtering, Filtrate } from '../shared/decorators/filtrate.decorator';
+import { Ordenate, Ordering } from '../shared/decorators/ordenate.decorator';
+import { Paginate, Pagination } from '../shared/decorators/paginate.decorator';
+import { PublicRoute } from '../shared/decorators/public-route.decorator';
+import { Response } from '../shared/interceptors/data-transform.interceptor';
+import { ResponsePaginate } from '../shared/interfaces/response-paginate.interface';
+import { IdValidator } from '../shared/validators/id.validator';
+import { CreateMetricaDto } from './dto/create-metrica-dto';
+import { UpdateMetricaDto } from './dto/update-metrica-dto';
+import { Metrica } from './entities/metrica.entity';
 import { IMetricaFilter } from './interfaces/metrica-filter.interface';
+import { MetricaService } from './metrica.service';
 
 @Controller('metrica')
 export class MetricaController {
@@ -38,6 +38,12 @@ export class MetricaController {
   async findOne(@Param() param: IdValidator): Promise<Metrica> {
     return this._service.findOne(param.id);
   }
+
+  @Get('soma-hidratacao/:id')
+  async getSomaHidratacao(@Param() param: IdValidator): Promise<number> {
+    return this._service.getSomaHidratacao(param.id);
+  }
+
   @Patch(':id')
   async update(
     @Param() param: IdValidator,
